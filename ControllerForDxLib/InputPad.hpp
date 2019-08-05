@@ -35,18 +35,25 @@ private:
 
 
 	// ゲームパッドのスティックのデッドゾーン数値を保存
-	static short thumbLX_DeadMAX;
-	static short thumbLX_DeadMIN;
-	static short thumbLY_DeadMAX;
-	static short thumbLY_DeadMIN;
-	static short thumbRX_DeadMAX;
-	static short thumbRX_DeadMIN;
-	static short thumbRY_DeadMAX;
-	static short thumbRY_DeadMIN;
+	static short stickLX_DeadMAX;
+	static short stickLX_DeadMIN;
+	static short stickLY_DeadMAX;
+	static short stickLY_DeadMIN;
+	static short stickRX_DeadMAX;
+	static short stickRX_DeadMIN;
+	static short stickRY_DeadMAX;
+	static short stickRY_DeadMIN;
 
 
 	static XINPUT_STATE m_input[4];	// ゲームパッドのナンバー
 	static char m_padNum;			// 繋がってるゲームパッドの数
+
+
+	enum class EStickCheck 
+	{
+		LEFT_STICK_LEFT, LEFT_STICK_DOWN, RIGHT_STICK_LEFT, RIGHT_STICK_DOWN
+		, LEFT_STICK_RIGHT, LEFT_STICK_UP, RIGHT_STICK_RIGHT, RIGHT_STICK_UP
+	};
 
 
 
@@ -54,7 +61,8 @@ public:
 	static void SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX, short thumbLY_MIN
 		, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN);					// デッドゾーンの設定
 	static void UpDate();																				// ゲームパッドの入力の状態更新
-	static int GetStickCheck(int code, int padNum, bool plus);											// ゲームパッドのスティックの押し倒し入力状態取得
+
+	static const int GetStickCheck(const int& t_code, const int& t_padNum, const bool& t_leftOrDown);											// ゲームパッドのスティックの押し倒し入力状態取得
 
 	static const int GetTrigger(const int& t_code, const int& t_padNum);
 

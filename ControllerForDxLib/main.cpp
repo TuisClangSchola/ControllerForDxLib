@@ -45,6 +45,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	PadData::SetPadNum();
 	PadData::UpDate();
 
+	PadData::SetDedZone(20000, -20000, 20000, -20000, 20000, -20000, 20000, -20000);
+
 
 	// ÉÅÉCÉìÉãÅ[Év
 	while (!ScreenFlip() && !ProcessMessage() && !ClearDrawScreen() && !KeyData::IsCheckEnd() && !PadData::IsCheckEnd())
@@ -52,7 +54,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		KeyData::UpDate();
 		PadData::UpDate();
 
-		printfDx("%d\n", PadData::GetTrigger(PadStick::LEFT_TRIGGER, 0));
+		printfDx("%d\n", PadData::GetStickCheck(PadStick::LEFT_STICK_X, 0, true));
 	}
 
 	// çÌèú
