@@ -7,8 +7,8 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// ウィンドウサイズを決める
-	int winWidth = 1920;
-	int winHeight = 1080;
+	int winWidth = 640;
+	int winHeight = 480;
 	int bitColor = 32;
 
 
@@ -48,10 +48,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	// メインループ
-	while (!ScreenFlip() && !ProcessMessage() && !ClearDrawScreen() && KeyData::CheckEnd() && PadData::CheckEnd())
+	while (!ScreenFlip() && !ProcessMessage() && !ClearDrawScreen() && !KeyData::IsCheckEnd() && PadData::CheckEnd())
 	{
 		KeyData::UpDate();
 		PadData::UpDate();
+
+
+		printfDx("%d", KeyData::Get(KEY_INPUT_Z));
 	}
 
 	// 削除
