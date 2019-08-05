@@ -26,7 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetGraphMode(winWidth, winHeight, bitColor);			// 画面サイズ設定
 	GetDefaultState(&winWidth, &winHeight, &bitColor);		// デフォルトウィンドウ値を得る
-	SetWindowSize(winWidth, winHeight);						// デフォルトウィンドウサイズに合わせてゲームサイズを変更
+	SetWindowSize(winWidth / 2, winHeight / 2);						// デフォルトウィンドウサイズに合わせてゲームサイズを変更
 
 
 	// ＤＸライブラリ初期化処理
@@ -42,11 +42,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	KeyData::UpDate();
 
+
 	PadData::SetPadNum();
+	PadData::SetDedZone(20000, -20000, 20000, -20000, 20000, -20000, 20000, -20000);
 	PadData::UpDate();
 
-	PadData::SetDedZone(20000, -20000, 20000, -20000, 20000, -20000, 20000, -20000);
 
+	// demo
+	int x = 100;
+	int y = 100;
+	int red = 255;
+	int green = 0;
+	int blue = 0;
+	
 
 	// メインループ
 	while (!ScreenFlip() && !ProcessMessage() && !ClearDrawScreen() && !KeyData::IsCheckEnd() && !PadData::IsCheckEnd())
@@ -54,7 +62,43 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		KeyData::UpDate();
 		PadData::UpDate();
 
-		printfDx("%d\n", PadData::GetStickCheck(PadStick::LEFT_STICK_X, 0, true));
+
+		/// demo---------------------------------------------------------------------------------
+		if (KeyData::Get(KEY_INPUT_W) > 0 || PadData::GetStickCheck(PadStick::LEFT_STICK_Y, 0, false) > 0)
+		{
+			y--;
+		}
+		if (KeyData::Get(KEY_INPUT_S) > 0 || PadData::GetStickCheck(PadStick::LEFT_STICK_Y, 0, true) > 0)
+		{
+			y++;
+		}
+		if (KeyData::Get(KEY_INPUT_A) > 0 || PadData::GetStickCheck(PadStick::LEFT_STICK_X, 0, true) > 0)
+		{
+			x--;
+		}
+		if (KeyData::Get(KEY_INPUT_D) > 0 || PadData::GetStickCheck(PadStick::LEFT_STICK_X, 0, false) > 0)
+		{
+			x++;
+		}
+		if (PadData::GetTrigger(PadStick::LEFT_TRIGGER, 0) == 255)
+		{
+			if (green < 255) green++;
+		}
+		if (PadData::GetTrigger(PadStick::RIGHT_TRIGGER, 0) == 255)
+		{
+			if (green > 0) green--;
+		}
+		if (PadData::GetStick(PadStick::RIGHT_STICK_X, 0) > 0)
+		{
+			if (blue < 255) blue++;
+		}
+		if (PadData::GetStick(PadStick::RIGHT_STICK_X, 0) < 0)
+		{
+			if (blue > 0) blue--;
+		}
+		DrawBox(x - 20, y - 20, x + 20, y + 20, GetColor(red, green, blue), true);
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "%dx%d, GetColor(255, %d, %d)", x, y, green, blue);
+		/// -------------------------------------------------------------------------------------
 	}
 
 	// 削除

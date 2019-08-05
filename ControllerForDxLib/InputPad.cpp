@@ -27,22 +27,6 @@ char PadData::m_padNum = -1;
 
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-void PadData::SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX, short thumbLY_MIN
-	, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN)
-{
-	stickLX_DeadMAX = thumbLX_MAX;
-	stickLX_DeadMIN = thumbLX_MIN;
-	stickLY_DeadMAX = thumbLY_MAX;
-	stickLY_DeadMIN = thumbLY_MIN;
-	stickRX_DeadMAX = thumbRX_MAX;
-	stickRX_DeadMIN = thumbRX_MIN;
-	stickRY_DeadMAX = thumbRY_MAX;
-	stickRY_DeadMIN = thumbRY_MIN;
-}
-
-
-
-/// ---------------------------------------------------------------------------------------------------------------------------------------------------------
 void PadData::UpDate()
 {
 	// ゲームパッドの取得出来ているか
@@ -50,10 +34,10 @@ void PadData::UpDate()
 
 
 	// ゲームパッドの個数だけ処理
-	for (int i = 0; i < static_cast<int>(m_padNum); ++i)
+	for (int padNumber = 0; padNumber < static_cast<int>(m_padNum); ++padNumber)
 	{
 		// 入力状態を取得
-		GetJoypadXInputState(i + 1, &m_input[i]);
+		GetJoypadXInputState(padNumber + 1, &m_input[padNumber]);
 	
 
 
@@ -63,21 +47,21 @@ void PadData::UpDate()
 			for (int j = 0; j < 16; ++j)
 			{
 				// 押されていなかったら
-				if (m_input[i].Buttons[j] == 0)
+				if (m_input[padNumber].Buttons[j] == 0)
 				{
-					if (m_button[i][j] < 0)
+					if (m_button[padNumber][j] < 0)
 					{
-						m_button[i][j] = 0;
+						m_button[padNumber][j] = 0;
 					}
-					else if (m_button[i][j] > 0)
+					else if (m_button[padNumber][j] > 0)
 					{
-						m_button[i][j] = -1;
+						m_button[padNumber][j] = -1;
 					}
 				}
 				// i番のキーコードに対応するボタンが押されていたら
-				else if (m_input[i].Buttons[j] == 1)
+				else if (m_input[padNumber].Buttons[j] == 1)
 				{
-					m_button[i][j]++;
+					m_button[padNumber][j]++;
 				}
 			}
 		}
@@ -88,8 +72,8 @@ void PadData::UpDate()
 		/// トリガー関係---------------------------------------------------------
 		{
 			// トリガーの入力数値を渡す
-			m_trigger[i][ps::LEFT_TRIGGER] = m_input[i].LeftTrigger;
-			m_trigger[i][ps::RIGHT_TRIGGER] = m_input[i].RightTrigger;
+			m_trigger[padNumber][ps::LEFT_TRIGGER] = m_input[padNumber].LeftTrigger;
+			m_trigger[padNumber][ps::RIGHT_TRIGGER] = m_input[padNumber].RightTrigger;
 		}
 		/// ---------------------------------------------------------------------
 
@@ -97,22 +81,46 @@ void PadData::UpDate()
 
 		/// スティック入力関係---------------------------------------------------
 		{
-			// スティックのデッドゾーンを考慮した入力数値を取得（デッドゾーンは受け付けない値
-			if (m_input[i].ThumbLX > stickLX_DeadMAX || m_input[i].ThumbLX < stickLX_DeadMIN)
+			/// スティックのデッドゾーンを考慮した入力数値を取得（デッドゾーンは受け付けない値
+
+			// 左スティック左右
+			if (m_input[padNumber].ThumbLX > stickLX_DeadMAX || m_input[padNumber].ThumbLX < stickLX_DeadMIN)
 			{
-				m_stick[i][ps::LEFT_STICK_X] = m_input[i].ThumbLX;
+				m_stick[padNumber][ps::LEFT_STICK_X] = m_input[padNumber].ThumbLX;
 			}
-			if (m_input[i].ThumbLY > stickLY_DeadMAX || m_input[i].ThumbLY < stickLY_DeadMIN)
+			else
 			{
-				m_stick[i][ps::LEFT_STICK_Y] = m_input[i].ThumbLY;
+				if (m_stick[padNumber][ps::LEFT_STICK_X] != 0) m_stick[padNumber][ps::LEFT_STICK_X] = 0;
 			}
-			if (m_input[i].ThumbRX > stickRX_DeadMAX || m_input[i].ThumbRX < stickRX_DeadMIN)
+
+			// 左スティック上下
+			if (m_input[padNumber].ThumbLY > stickLY_DeadMAX || m_input[padNumber].ThumbLY < stickLY_DeadMIN)
 			{
-				m_stick[i][ps::RIGHT_STICK_X] = m_input[i].ThumbRX;
+				m_stick[padNumber][ps::LEFT_STICK_Y] = m_input[padNumber].ThumbLY;
 			}
-			if (m_input[i].ThumbRY > stickRY_DeadMAX || m_input[i].ThumbRY < stickRY_DeadMIN)
+			else
 			{
-				m_stick[i][ps::RIGHT_STICK_Y] = m_input[i].ThumbRY;
+				if (m_stick[padNumber][ps::LEFT_STICK_Y] != 0) m_stick[padNumber][ps::LEFT_STICK_Y] = 0;
+			}
+
+			// 右スティック左右
+			if (m_input[padNumber].ThumbRX > stickRX_DeadMAX || m_input[padNumber].ThumbRX < stickRX_DeadMIN)
+			{
+				m_stick[padNumber][ps::RIGHT_STICK_X] = m_input[padNumber].ThumbRX;
+			}
+			else
+			{
+				if (m_stick[padNumber][ps::RIGHT_STICK_X] != 0) m_stick[padNumber][ps::RIGHT_STICK_X] = 0;
+			}
+
+			// 右スティック上下
+			if (m_input[padNumber].ThumbRY > stickRY_DeadMAX || m_input[padNumber].ThumbRY < stickRY_DeadMIN)
+			{
+				m_stick[padNumber][ps::RIGHT_STICK_Y] = m_input[padNumber].ThumbRY;
+			}
+			else
+			{
+				if (m_stick[padNumber][ps::RIGHT_STICK_Y] != 0) m_stick[padNumber][ps::RIGHT_STICK_Y] = 0;
 			}
 		}
 		/// ---------------------------------------------------------------------
@@ -121,67 +129,139 @@ void PadData::UpDate()
 
 		/// スティック押し倒し関係-----------------------------------------------
 		{
-			// 左スティックを左右に押し倒しているかを調べる
-			if (m_input[i].ThumbLX == ps::THUMB_MAX_VALUE)
+			// 左スティックを右に押し倒していたら
+			if (m_input[padNumber].ThumbLX == ps::THUMB_MAX_VALUE)
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::LEFT_STICK_RIGHT)]++;
+				m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_RIGHT)]++;
 			}
-			else if (m_input[i].ThumbLX == ps::THUMB_MIN_VALUE)
+			// 左スティックを左に押し倒していたら
+			else if (m_input[padNumber].ThumbLX == ps::THUMB_MIN_VALUE)
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::LEFT_STICK_LEFT)]++;
+				m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_LEFT)]++;
 			}
+			// 左スティックが押し倒されていなかったら
 			else
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::LEFT_STICK_RIGHT)] = 0;
-				m_stickCheck[i][static_cast<int>(EStickCheck::LEFT_STICK_LEFT)] = 0;
+				if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_RIGHT)] < 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_RIGHT)] = 0;
+				}
+				else if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_RIGHT)] > 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_RIGHT)] = -1;
+				}
+
+
+				if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_LEFT)] < 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_LEFT)] = 0;
+				}
+				else if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_LEFT)] > 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_LEFT)] = -1;
+				}
 			}
 
 
-			// 左スティックを上下に押し倒しているかを調べる
-			if (m_input[i].ThumbLY == ps::THUMB_MAX_VALUE)
+			// 左スティックを上に押し倒していたら
+			if (m_input[padNumber].ThumbLY == ps::THUMB_MAX_VALUE)
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::LEFT_STICK_UP)]++;
+				m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_UP)]++;
 			}
-			else if (m_input[i].ThumbLY == ps::THUMB_MIN_VALUE)
+			// 左スティックを下に押し倒していたら
+			else if (m_input[padNumber].ThumbLY == ps::THUMB_MIN_VALUE)
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::LEFT_STICK_DOWN)]++;
+				m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_DOWN)]++;
 			}
+			// 左スティックが押し倒されていなかったら
 			else
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::LEFT_STICK_UP)] = 0;
-				m_stickCheck[i][static_cast<int>(EStickCheck::LEFT_STICK_DOWN)] = 0;
+				if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_UP)] < 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_UP)] = 0;
+				}
+				else if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_UP)] > 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_UP)] = -1;
+				}
+
+
+				if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_DOWN)] < 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_DOWN)] = 0;
+				}
+				else if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_DOWN)] > 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_DOWN)] = -1;
+				}
 			}
 
 
-			// 右スティックを左右に押し倒しているかを調べる
-			if (m_input[i].ThumbRX == ps::THUMB_MAX_VALUE)
+			// 右スティックを右に押し倒していたら
+			if (m_input[padNumber].ThumbRX == ps::THUMB_MAX_VALUE)
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::RIGHT_STICK_RIGHT)]++;
+				m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_RIGHT)]++;
 			}
-			else if (m_input[i].ThumbRX == ps::THUMB_MIN_VALUE)
+			// 右スティックを左に押し倒していたら
+			else if (m_input[padNumber].ThumbRX == ps::THUMB_MIN_VALUE)
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::RIGHT_STICK_LEFT)]++;
+				m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_LEFT)]++;
 			}
+			// 右スティックが押し倒されていなかったら
 			else
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::RIGHT_STICK_RIGHT)] = 0;
-				m_stickCheck[i][static_cast<int>(EStickCheck::RIGHT_STICK_LEFT)] = 0;
+				if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_RIGHT)] < 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_RIGHT)] = 0;
+				}
+				else if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_RIGHT)] > 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_RIGHT)] = -1;
+				}
+
+
+				if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_LEFT)] < 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_LEFT)] = 0;
+				}
+				else if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_LEFT)] > 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_LEFT)] = -1;
+				}
 			}
 
 
-			// 右スティックを上下に押し倒しているかを調べる
-			if (m_input[i].ThumbRY == ps::THUMB_MAX_VALUE)
+			// 右スティックを上に押し倒していたら
+			if (m_input[padNumber].ThumbRY == ps::THUMB_MAX_VALUE)
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::RIGHT_STICK_UP)]++;
+				m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_UP)]++;
 			}
-			else if (m_input[i].ThumbRY == ps::THUMB_MIN_VALUE)
+			// 右スティックを下に押し倒していたら
+			else if (m_input[padNumber].ThumbRY == ps::THUMB_MIN_VALUE)
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::RIGHT_STICK_DOWN)]++;
+				m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_DOWN)]++;
 			}
+			// 右スティックが押し倒されていなかったら
 			else
 			{
-				m_stickCheck[i][static_cast<int>(EStickCheck::RIGHT_STICK_UP)] = 0;
-				m_stickCheck[i][static_cast<int>(EStickCheck::RIGHT_STICK_DOWN)] = 0;
+				if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_UP)] < 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_UP)] = 0;
+				}
+				else if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_UP)] > 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_UP)] = -1;
+				}
+
+
+				if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_DOWN)] < 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_DOWN)] = 0;
+				}
+				else if (m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_DOWN)] > 0)
+				{
+					m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_DOWN)] = -1;
+				}
 			}
 		}
 		/// ---------------------------------------------------------------------
@@ -191,9 +271,25 @@ void PadData::UpDate()
 
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-const int PadData::Get(const int& t_code, const int& t_padNum)
+const int PadData::GetButton(const int& t_code, const int& t_padNum)
 {
 	return m_button[t_padNum][t_code];
+}
+
+
+
+/// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+const int PadData::GetTrigger(const int& t_code, const int& t_padNum)
+{
+	return m_trigger[t_padNum][t_code];
+}
+
+
+
+/// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+const int PadData::GetStick(const int& t_code, const int& t_padNum)
+{
+	return m_stick[t_padNum][t_code];
 }
 
 
@@ -214,14 +310,6 @@ const int PadData::GetStickCheck(const int& t_code, const int& t_padNum, const b
 
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-const int PadData::GetTrigger(const int& t_code, const int& t_padNum)
-{
-	return m_trigger[t_padNum][t_code];
-}
-
-
-
-/// ---------------------------------------------------------------------------------------------------------------------------------------------------------
 const bool PadData::IsCheckEnd()
 {
 	return
@@ -231,14 +319,6 @@ const bool PadData::IsCheckEnd()
 		(m_button[2][XINPUT_BUTTON_START] > 1 && m_button[2][XINPUT_BUTTON_BACK] > 1) ||
 		(m_button[3][XINPUT_BUTTON_START] > 1 && m_button[3][XINPUT_BUTTON_BACK] > 1)
 	};
-}
-
-
-
-/// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-const int PadData::GetStick(const int& t_code, const int& t_padNum)
-{
-	return m_stick[t_padNum][t_code];
 }
 
 

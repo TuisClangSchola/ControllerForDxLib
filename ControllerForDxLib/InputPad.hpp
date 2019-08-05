@@ -16,9 +16,6 @@ namespace PadStick
 
 	const int  THUMB_MAX_VALUE = 32767;
 	const int  THUMB_MIN_VALUE = -32768;
-
-	const int THUMB_PLUS = 0;
-	const int THUMB_MINUS = 4;
 }
 #endif // !_INPUTCONTROLLER_H
 
@@ -58,21 +55,39 @@ private:
 
 
 public:
-	static void SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX, short thumbLY_MIN
-		, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN);					// デッドゾーンの設定
-	static void UpDate();																				// ゲームパッドの入力の状態更新
+	static void UpDate();		// ゲームパッドの入力の状態更新
 
-	static const int GetStickCheck(const int& t_code, const int& t_padNum, const bool& t_leftOrDown);											// ゲームパッドのスティックの押し倒し入力状態取得
 
-	static const int GetTrigger(const int& t_code, const int& t_padNum);
+	static const int GetButton(const int& t_code, const int& t_padNum);									// ボタンの入力状態取得
+	static const int GetTrigger(const int& t_code, const int& t_padNum);								// トリガーの取得
+	static const int GetStick(const int& t_code, const int& t_padNum);									// スティックの入力状態取得
+	static const int GetStickCheck(const int& t_code, const int& t_padNum, const bool& t_leftOrDown);	// スティックの押し倒し取得
 
-	static const int Get(const int& t_code, const int& t_padNum);																// ゲームパッドの入力状態取得
+
 	static const bool IsCheckEnd();																		// 強制終了
-	static const int GetStick(const int& t_code, const int& t_padNum);										// ゲームパッドのスティックの入力状態取得
 	static const char GetPadNum();																		// 接続されてるゲームパッドの数
 
+
+	static inline void SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX, short thumbLY_MIN
+		, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN);					// デッドゾーンの設定
 	static inline void SetPadNum();																		// 接続されてるゲームパッドを取得する
 };
+
+
+
+/// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+inline void PadData::SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX, short thumbLY_MIN
+	, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN)
+{
+	stickLX_DeadMAX = thumbLX_MAX;
+	stickLX_DeadMIN = thumbLX_MIN;
+	stickLY_DeadMAX = thumbLY_MAX;
+	stickLY_DeadMIN = thumbLY_MIN;
+	stickRX_DeadMAX = thumbRX_MAX;
+	stickRX_DeadMIN = thumbRX_MIN;
+	stickRY_DeadMAX = thumbRY_MAX;
+	stickRY_DeadMIN = thumbRY_MIN;
+}
 
 
 
