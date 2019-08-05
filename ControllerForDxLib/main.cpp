@@ -47,12 +47,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	// ƒƒCƒ“ƒ‹[ƒv
-	while (!ScreenFlip() && !ProcessMessage() && !ClearDrawScreen() && !KeyData::IsCheckEnd() && PadData::CheckEnd())
+	while (!ScreenFlip() && !ProcessMessage() && !ClearDrawScreen() && !KeyData::IsCheckEnd() && !PadData::IsCheckEnd())
 	{
 		KeyData::UpDate();
 		PadData::UpDate();
 
-		printfDx("%d", KeyData::Get(KEY_INPUT_Z));
+		//printfDx("%d\n", PadData::Get(XINPUT_BUTTON_A, 0));
 	}
 
 	// íœ

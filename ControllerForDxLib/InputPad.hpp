@@ -25,7 +25,8 @@ namespace PadStick
 
 
 // ゲームパッドの入力状態
-class PadData {
+class PadData 
+{
 private:
 	static int button[4][16];		// ゲームパッドの入力状態格納用変数
 	static int stick[4][6];			// ゲームパッドのスティック関連の入力状態収納用変数
@@ -43,7 +44,7 @@ private:
 	static short thumbRY_DeadMIN;
 
 
-	static XINPUT_STATE input[4];	// ゲームパッドのナンバー
+	static XINPUT_STATE m_input[4];	// ゲームパッドのナンバー
 	static char m_padNum;			// 繋がってるゲームパッドの数
 
 
@@ -52,27 +53,27 @@ public:
 	static void SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX, short thumbLY_MIN
 		, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN);					// デッドゾーンの設定
 	static void UpDate();																				// ゲームパッドの入力の状態更新
-	static int Get(int code, int padNum);																// ゲームパッドの入力状態取得
-	static int GetStickCheck(int code, int padNum, bool plus);														// ゲームパッドのスティックの押し倒し入力状態取得
-	static bool CheckEnd();																				// 強制終了
+	static int GetStickCheck(int code, int padNum, bool plus);											// ゲームパッドのスティックの押し倒し入力状態取得
+
+	static const int Get(const int& t_code, const int& t_padNum);																// ゲームパッドの入力状態取得
+	static const bool IsCheckEnd();																		// 強制終了
+	static const int GetStick(const int& t_code, const int& t_padNum);										// ゲームパッドのスティックの入力状態取得
+	static const char GetPadNum();																		// 接続されてるゲームパッドの数
+
+	static inline void SetPadNum();																		// 接続されてるゲームパッドを取得する
+};
 
 
 
-	// ゲームパッドのスティックの入力状態取得
-	static const int GetStick(int code, int padNum)
-	{
-		return stick[padNum][code];
-	}
-
-	// 接続されてるゲームパッドの数
-	static const char GetPadNum()
-	{
-		return m_padNum;
-	}
-
-	// 接続されてるゲームパッドを取得する
-	static void SetPadNum()
+/// ------------------------------------------------------------------------------------------------------------
+inline void PadData::SetPadNum()
+{
+	if (GetJoypadNum() > 0)
 	{
 		m_padNum = static_cast<char>(GetJoypadNum());
 	}
-};
+	else
+	{
+		m_padNum = -1;
+	}
+}
