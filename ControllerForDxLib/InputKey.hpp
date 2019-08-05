@@ -14,16 +14,6 @@ public:
 	static void UpDate();			// キー入力の状態更新
 
 
-	// キー入力状態取得
-	static const int Get(const int& t_keyCode)
-	{
-		return m_key[t_keyCode];
-	}
-
-
-	// 強制終了
-	static const bool IsCheckEnd()
-	{
-		return m_key[KEY_INPUT_ESCAPE] > 0;
-	}
+	static const int Get(const int& t_keyCode);		// キー入力状態取得
+	static const bool IsCheckEnd();					// 強制終了
 };
