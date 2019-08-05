@@ -17,7 +17,7 @@ short PadData::thumbRX_DeadMIN;
 short PadData::thumbRY_DeadMAX;
 short PadData::thumbRY_DeadMIN;
 XINPUT_STATE PadData::input[4];	// ゲームパッドのナンバー
-char PadData::padNum;
+char PadData::m_padNum;
 
 
 
@@ -25,14 +25,14 @@ char PadData::padNum;
 void PadData::SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX, short thumbLY_MIN
 	, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN)
 {
-	PadData::thumbLX_DeadMAX = thumbLX_MAX;
-	PadData::thumbLX_DeadMIN = thumbLX_MIN;
-	PadData::thumbLY_DeadMAX = thumbLY_MAX;
-	PadData::thumbLY_DeadMIN = thumbLY_MIN;
-	PadData::thumbRX_DeadMAX = thumbRX_MAX;
-	PadData::thumbRX_DeadMIN = thumbRX_MIN;
-	PadData::thumbRY_DeadMAX = thumbRY_MAX;
-	PadData::thumbRY_DeadMIN = thumbRY_MIN;
+	thumbLX_DeadMAX = thumbLX_MAX;
+	thumbLX_DeadMIN = thumbLX_MIN;
+	thumbLY_DeadMAX = thumbLY_MAX;
+	thumbLY_DeadMIN = thumbLY_MIN;
+	thumbRX_DeadMAX = thumbRX_MAX;
+	thumbRX_DeadMIN = thumbRX_MIN;
+	thumbRY_DeadMAX = thumbRY_MAX;
+	thumbRY_DeadMIN = thumbRY_MIN;
 }
 
 
@@ -40,7 +40,7 @@ void PadData::SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
 void PadData::UpDate()
 {
-	for (int j = 0; j < PadData::padNum; j++)
+	for (int j = 0; j < m_padNum; j++)
 	{
 		// 入力状態を取得
 		switch (j)
@@ -168,14 +168,6 @@ int PadData::Get(int code, int padNum)
 
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-int PadData::GetStick(int code, int padNum)
-{
-	return PadData::stick[padNum][code];
-}
-
-
-
-/// ---------------------------------------------------------------------------------------------------------------------------------------------------------
 int PadData::GetStickCheck(int code, int padNum, bool plus)
 {
 	if (plus)
@@ -186,14 +178,6 @@ int PadData::GetStickCheck(int code, int padNum, bool plus)
 	{
 		return PadData::stickCheck[padNum][code - 2 - 4];
 	}
-}
-
-
-
-/// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-__int8 PadData::GetPadNum()
-{
-	return PadData::padNum;
 }
 
 

@@ -21,17 +21,19 @@ void KeyData::UpDate()
 		// 押されていなかったら
 		if (m_tmpKey[i] == 0)
 		{
-			if (m_key[i] != 0) m_key[i] = 0;
+			if (m_key[i] < 0)
+			{
+				m_key[i] = 0;
+			}
+			else if (m_key[i] > 0)
+			{
+				m_key[i] = -1;
+			}
 		}
 		// i番のキーコードに対応するキーが押されていたら
 		 else if (m_tmpKey[i] == 1)
 		{
 			m_key[i]++;
-		}
-		// キーが離された瞬間（上の処理が通らなかったら
-		else if (m_key[i] > 0)
-		{
-			m_key[i] = -1;
 		}
 	}
 }

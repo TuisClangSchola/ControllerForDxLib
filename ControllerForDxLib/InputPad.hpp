@@ -44,7 +44,7 @@ private:
 
 
 	static XINPUT_STATE input[4];	// ゲームパッドのナンバー
-	static char padNum;			// 繋がってるゲームパッドの数
+	static char m_padNum;			// 繋がってるゲームパッドの数
 
 
 
@@ -53,16 +53,26 @@ public:
 		, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN);					// デッドゾーンの設定
 	static void UpDate();																				// ゲームパッドの入力の状態更新
 	static int Get(int code, int padNum);																// ゲームパッドの入力状態取得
-	static int GetStick(int code, int padNum);															// ゲームパッドのスティックの入力状態取得
 	static int GetStickCheck(int code, int padNum, bool plus);														// ゲームパッドのスティックの押し倒し入力状態取得
-	static __int8 GetPadNum();																			// 接続されてるゲームパッドの数
 	static bool CheckEnd();																				// 強制終了
 
 
 
-	// 接続されてるゲームパッドを確認
+	// ゲームパッドのスティックの入力状態取得
+	static const int GetStick(int code, int padNum)
+	{
+		return stick[padNum][code];
+	}
+
+	// 接続されてるゲームパッドの数
+	static const char GetPadNum()
+	{
+		return m_padNum;
+	}
+
+	// 接続されてるゲームパッドを取得する
 	static void SetPadNum()
 	{
-		padNum = static_cast<char>(GetJoypadNum());
+		m_padNum = static_cast<char>(GetJoypadNum());
 	}
 };

@@ -42,8 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	KeyData::UpDate();
 
-
-	PadData::PadData();
+	PadData::SetPadNum();
 	PadData::UpDate();
 
 
@@ -52,6 +51,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		KeyData::UpDate();
 		PadData::UpDate();
+
+		printfDx("%d", KeyData::Get(KEY_INPUT_Z));
 	}
 
 	// çÌèú

@@ -15,7 +15,7 @@ public:
 
 
 	// ƒL[“ü—Íó‘Ôæ“¾
-	static int Get(const int& t_keyCode)
+	static const int Get(const int& t_keyCode)
 	{
 		return m_key[t_keyCode];
 	}
