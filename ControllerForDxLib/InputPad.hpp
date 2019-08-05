@@ -26,9 +26,11 @@ namespace PadStick
 
 // ゲームパッドの入力状態
 class PadData {
+private:
 	static int button[4][16];		// ゲームパッドの入力状態格納用変数
 	static int stick[4][6];			// ゲームパッドのスティック関連の入力状態収納用変数
 	static int stickCheck[4][8];	// ゲームパッドのスティックの入力状態収納用変数の最大までの倒しチェック
+
 
 	// ゲームパッドのスティックのデッドゾーン数値を保存
 	static short thumbLX_DeadMAX;
@@ -40,14 +42,13 @@ class PadData {
 	static short thumbRY_DeadMAX;
 	static short thumbRY_DeadMIN;
 
+
 	static XINPUT_STATE input[4];	// ゲームパッドのナンバー
-	static __int8 padNum;			// 繋がってるゲームパッドの数
+	static char padNum;			// 繋がってるゲームパッドの数
+
+
 
 public:
-	PadData();
-	~PadData();
-
-	static void SetPadNum();																			// 接続されてるゲームパッドを確認
 	static void SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX, short thumbLY_MIN
 		, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN);					// デッドゾーンの設定
 	static void UpDate();																				// ゲームパッドの入力の状態更新
@@ -56,4 +57,12 @@ public:
 	static int GetStickCheck(int code, int padNum, bool plus);														// ゲームパッドのスティックの押し倒し入力状態取得
 	static __int8 GetPadNum();																			// 接続されてるゲームパッドの数
 	static bool CheckEnd();																				// 強制終了
+
+
+
+	// 接続されてるゲームパッドを確認
+	static void SetPadNum()
+	{
+		padNum = static_cast<char>(GetJoypadNum());
+	}
 };

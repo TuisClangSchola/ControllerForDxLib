@@ -12,26 +12,26 @@ char KeyData::m_tmpKey[256];
 /// ------------------------------------------------------------------------------------------------------------
 void KeyData::UpDate()
 {
-	GetHitKeyStateAll(m_tmpKey);	// 全てのキーの入力状態を得る
+	GetHitKeyStateAll(m_tmpKey);	// 全てのキーの入力状態を得る（押されたら１を出力し、押されていなかったら０を返す
 
 
 	// 全キー入力
-	for (int i = 0; i < 256; i++)
+	for (int i = 0; i < 256; ++i)
 	{
+		// 押されていなかったら
+		if (m_tmpKey[i] == 0)
+		{
+			if (m_key[i] != 0) m_key[i] = 0;
+		}
 		// i番のキーコードに対応するキーが押されていたら
-		if (m_tmpKey[i] != 0)
+		 else if (m_tmpKey[i] == 1)
 		{
 			m_key[i]++;
 		}
-		// キーが離された瞬間
+		// キーが離された瞬間（上の処理が通らなかったら
 		else if (m_key[i] > 0)
 		{
 			m_key[i] = -1;
-		}
-		// アクションがない
-		else // else if (m_key[i] < 0)
-		{
-			m_key[i] = 0;
 		}
 	}
 }
