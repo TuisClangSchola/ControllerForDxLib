@@ -9,13 +9,13 @@ namespace PadStick
 {
 	const int LEFT_TRIGGER = 0;
 	const int RIGHT_TRIGGER = 1;
-	const int  LEFT_STICK_X = 2;
-	const int  LEFT_STICK_Y = 3;
-	const int  RIGHT_STICK_X = 4;
-	const int  RIGHT_STICK_Y = 5;
+	const int LEFT_STICK_X = 2;
+	const int LEFT_STICK_Y = 3;
+	const int RIGHT_STICK_X = 4;
+	const int RIGHT_STICK_Y = 5;
 
-	const int  THUMB_MAX_VALUE = 32767;
-	const int  THUMB_MIN_VALUE = -32768;
+	const int STICK_MAX_VALUE = 32767;
+	const int STICK_MIN_VALUE = -32768;
 }
 #endif // !_INPUTCONTROLLER_H
 
@@ -32,14 +32,14 @@ private:
 
 
 	// ゲームパッドのスティックのデッドゾーン数値を保存
-	static short stickLX_DeadMAX;
-	static short stickLX_DeadMIN;
-	static short stickLY_DeadMAX;
-	static short stickLY_DeadMIN;
-	static short stickRX_DeadMAX;
-	static short stickRX_DeadMIN;
-	static short stickRY_DeadMAX;
-	static short stickRY_DeadMIN;
+	static short stickLX_DeadZoneMAX;
+	static short stickLX_DeadZoneMIN;
+	static short stickLY_DeadZoneMAX;
+	static short stickLY_DeadZoneMIN;
+	static short stickRX_DeadZoneMAX;
+	static short stickRX_DeadZoneMIN;
+	static short stickRY_DeadZoneMAX;
+	static short stickRY_DeadZoneMIN;
 
 
 	static XINPUT_STATE m_input[4];	// ゲームパッドのナンバー
@@ -68,25 +68,25 @@ public:
 	static const char GetPadNum();																		// 接続されてるゲームパッドの数
 
 
-	static inline void SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX, short thumbLY_MIN
-		, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN);					// デッドゾーンの設定
+	static inline void SetDedZone(const short& t_stickLX_MAX, const short& t_stickLX_MIN, const short& t_stickLY_MAX, const short& t_stickLY_MIN
+		, const short& t_stickRX_MAX, const short& t_stickRX_MIN, const short& t_stickRY_MAX, const short& t_stickRY_MIN);					// デッドゾーンの設定
 	static inline void SetPadNum();																		// 接続されてるゲームパッドを取得する
 };
 
 
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-inline void PadData::SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX, short thumbLY_MIN
-	, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN)
+inline void PadData::SetDedZone(const short& t_stickLX_MAX, const short& t_stickLX_MIN, const short& t_stickLY_MAX, const short& t_stickLY_MIN
+	, const short& t_stickRX_MAX, const short& t_stickRX_MIN, const short& t_stickRY_MAX, const short& t_stickRY_MIN)
 {
-	stickLX_DeadMAX = thumbLX_MAX;
-	stickLX_DeadMIN = thumbLX_MIN;
-	stickLY_DeadMAX = thumbLY_MAX;
-	stickLY_DeadMIN = thumbLY_MIN;
-	stickRX_DeadMAX = thumbRX_MAX;
-	stickRX_DeadMIN = thumbRX_MIN;
-	stickRY_DeadMAX = thumbRY_MAX;
-	stickRY_DeadMIN = thumbRY_MIN;
+	stickLX_DeadZoneMAX = t_stickLX_MAX;
+	stickLX_DeadZoneMIN = t_stickLX_MIN;
+	stickLY_DeadZoneMAX = t_stickLY_MAX;
+	stickLY_DeadZoneMIN = t_stickLY_MIN;
+	stickRX_DeadZoneMAX = t_stickRX_MAX;
+	stickRX_DeadZoneMIN = t_stickRX_MIN;
+	stickRY_DeadZoneMAX = t_stickRY_MAX;
+	stickRY_DeadZoneMIN = t_stickRY_MIN;
 }
 
 

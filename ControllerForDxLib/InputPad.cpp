@@ -11,14 +11,14 @@ int PadData::m_stick[4][6];
 int PadData::m_stickCheck[4][8];
 int PadData::m_trigger[4][2];
 
-short PadData::stickLX_DeadMAX = 1000;
-short PadData::stickLX_DeadMIN = -1000;
-short PadData::stickLY_DeadMAX = 1000;
-short PadData::stickLY_DeadMIN = -1000;
-short PadData::stickRX_DeadMAX = 1000;
-short PadData::stickRX_DeadMIN = -1000;
-short PadData::stickRY_DeadMAX = 1000;
-short PadData::stickRY_DeadMIN = -1000;
+short PadData::stickLX_DeadZoneMAX = 1000;
+short PadData::stickLX_DeadZoneMIN = -1000;
+short PadData::stickLY_DeadZoneMAX = 1000;
+short PadData::stickLY_DeadZoneMIN = -1000;
+short PadData::stickRX_DeadZoneMAX = 1000;
+short PadData::stickRX_DeadZoneMIN = -1000;
+short PadData::stickRY_DeadZoneMAX = 1000;
+short PadData::stickRY_DeadZoneMIN = -1000;
 
 XINPUT_STATE PadData::m_input[4];
 
@@ -84,7 +84,7 @@ void PadData::UpDate()
 			/// スティックのデッドゾーンを考慮した入力数値を取得（デッドゾーンは受け付けない値
 
 			// 左スティック左右
-			if (m_input[padNumber].ThumbLX > stickLX_DeadMAX || m_input[padNumber].ThumbLX < stickLX_DeadMIN)
+			if (m_input[padNumber].ThumbLX > stickLX_DeadZoneMAX || m_input[padNumber].ThumbLX < stickLX_DeadZoneMIN)
 			{
 				m_stick[padNumber][ps::LEFT_STICK_X] = m_input[padNumber].ThumbLX;
 			}
@@ -94,7 +94,7 @@ void PadData::UpDate()
 			}
 
 			// 左スティック上下
-			if (m_input[padNumber].ThumbLY > stickLY_DeadMAX || m_input[padNumber].ThumbLY < stickLY_DeadMIN)
+			if (m_input[padNumber].ThumbLY > stickLY_DeadZoneMAX || m_input[padNumber].ThumbLY < stickLY_DeadZoneMIN)
 			{
 				m_stick[padNumber][ps::LEFT_STICK_Y] = m_input[padNumber].ThumbLY;
 			}
@@ -104,7 +104,7 @@ void PadData::UpDate()
 			}
 
 			// 右スティック左右
-			if (m_input[padNumber].ThumbRX > stickRX_DeadMAX || m_input[padNumber].ThumbRX < stickRX_DeadMIN)
+			if (m_input[padNumber].ThumbRX > stickRX_DeadZoneMAX || m_input[padNumber].ThumbRX < stickRX_DeadZoneMIN)
 			{
 				m_stick[padNumber][ps::RIGHT_STICK_X] = m_input[padNumber].ThumbRX;
 			}
@@ -114,7 +114,7 @@ void PadData::UpDate()
 			}
 
 			// 右スティック上下
-			if (m_input[padNumber].ThumbRY > stickRY_DeadMAX || m_input[padNumber].ThumbRY < stickRY_DeadMIN)
+			if (m_input[padNumber].ThumbRY > stickRY_DeadZoneMAX || m_input[padNumber].ThumbRY < stickRY_DeadZoneMIN)
 			{
 				m_stick[padNumber][ps::RIGHT_STICK_Y] = m_input[padNumber].ThumbRY;
 			}
@@ -130,12 +130,12 @@ void PadData::UpDate()
 		/// スティック押し倒し関係-----------------------------------------------
 		{
 			// 左スティックを右に押し倒していたら
-			if (m_input[padNumber].ThumbLX == ps::THUMB_MAX_VALUE)
+			if (m_input[padNumber].ThumbLX == ps::STICK_MAX_VALUE)
 			{
 				m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_RIGHT)]++;
 			}
 			// 左スティックを左に押し倒していたら
-			else if (m_input[padNumber].ThumbLX == ps::THUMB_MIN_VALUE)
+			else if (m_input[padNumber].ThumbLX == ps::STICK_MIN_VALUE)
 			{
 				m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_LEFT)]++;
 			}
@@ -164,12 +164,12 @@ void PadData::UpDate()
 
 
 			// 左スティックを上に押し倒していたら
-			if (m_input[padNumber].ThumbLY == ps::THUMB_MAX_VALUE)
+			if (m_input[padNumber].ThumbLY == ps::STICK_MAX_VALUE)
 			{
 				m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_UP)]++;
 			}
 			// 左スティックを下に押し倒していたら
-			else if (m_input[padNumber].ThumbLY == ps::THUMB_MIN_VALUE)
+			else if (m_input[padNumber].ThumbLY == ps::STICK_MIN_VALUE)
 			{
 				m_stickCheck[padNumber][static_cast<int>(EStickCheck::LEFT_STICK_DOWN)]++;
 			}
@@ -198,12 +198,12 @@ void PadData::UpDate()
 
 
 			// 右スティックを右に押し倒していたら
-			if (m_input[padNumber].ThumbRX == ps::THUMB_MAX_VALUE)
+			if (m_input[padNumber].ThumbRX == ps::STICK_MAX_VALUE)
 			{
 				m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_RIGHT)]++;
 			}
 			// 右スティックを左に押し倒していたら
-			else if (m_input[padNumber].ThumbRX == ps::THUMB_MIN_VALUE)
+			else if (m_input[padNumber].ThumbRX == ps::STICK_MIN_VALUE)
 			{
 				m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_LEFT)]++;
 			}
@@ -232,12 +232,12 @@ void PadData::UpDate()
 
 
 			// 右スティックを上に押し倒していたら
-			if (m_input[padNumber].ThumbRY == ps::THUMB_MAX_VALUE)
+			if (m_input[padNumber].ThumbRY == ps::STICK_MAX_VALUE)
 			{
 				m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_UP)]++;
 			}
 			// 右スティックを下に押し倒していたら
-			else if (m_input[padNumber].ThumbRY == ps::THUMB_MIN_VALUE)
+			else if (m_input[padNumber].ThumbRY == ps::STICK_MIN_VALUE)
 			{
 				m_stickCheck[padNumber][static_cast<int>(EStickCheck::RIGHT_STICK_DOWN)]++;
 			}
