@@ -52,7 +52,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		KeyData::UpDate();
 		PadData::UpDate();
 
-		//printfDx("%d\n", PadData::Get(XINPUT_BUTTON_A, 0));
+		printfDx("%d\n", PadData::Get(XINPUT_BUTTON_A, 0));
 	}
 
 	// çÌèú

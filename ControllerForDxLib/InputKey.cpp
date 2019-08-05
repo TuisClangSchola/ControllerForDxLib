@@ -16,7 +16,7 @@ void KeyData::UpDate()
 	if (GetHitKeyStateAll(m_tmpKey) == -1) return;
 
 
-	// 全キー入力
+	// 全キー入力処理
 	for (int i = 0; i < 256; ++i)
 	{
 		// 押されていなかったら

@@ -5,7 +5,7 @@ namespace ps = PadStick;
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-int PadData::button[4][16];
+int PadData::m_button[4][16];
 int PadData::stick[4][6];
 int PadData::stickCheck[4][8];
 short PadData::thumbLX_DeadMAX;
@@ -40,51 +40,36 @@ void PadData::SetDedZone(short thumbLX_MAX, short thumbLX_MIN, short thumbLY_MAX
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
 void PadData::UpDate()
 {
-	if (m_padNum > 4 || m_padNum < 0) return;
-	printfDx("aiueo\n");
+	// ゲームパッドの取得出来ているか
+	if (m_padNum == -1) return;
 
+
+	// ゲームパッドの個数だけ処理
 	for (int i = 0; i < m_padNum; ++i)
 	{
 		// 入力状態を取得
-		switch (i)
-		{
-		case 0:
-			GetJoypadXInputState(DX_INPUT_PAD1, &m_input[i]);
-			break;
+		GetJoypadXInputState(i + 1, &m_input[i]);
+	
 
-		case 1:
-			GetJoypadXInputState(DX_INPUT_PAD2, &m_input[i]);
-			break;
-
-		case 2:
-			GetJoypadXInputState(DX_INPUT_PAD3, &m_input[i]);
-			break;
-
-		case 3:
-			GetJoypadXInputState(DX_INPUT_PAD4, &m_input[i]);
-			break;
-
-		default:
-			break;
-		}
-
-
+		// 全ボタン入力処理
 		for (int j = 0; j < 16; ++j)
 		{
+			// 押されていなかったら
+			if (m_input[i].Buttons[j] == 0)
+			{
+				if (m_button[i][j] < 0)
+				{
+					m_button[i][j] = 0;
+				}
+				else if (m_button[i][j] > 0)
+				{
+					m_button[i][j] = -1;
+				}
+			}
 			// i番のキーコードに対応するキーが押されていたら
-			if (m_input[i].Buttons[j] != 0)
+			else if (m_input[i].Buttons[j] == 1)
 			{
-				PadData::button[i][j]++;   // 加算
-			}
-			// キーが離された瞬間
-			else if (PadData::button[i][j] > 0)  // これでダメだったら元の「button[i] > 0」に戻して。でもこれおかしいと思う
-			{
-				PadData::button[i][j] = -1; // -1にする
-			}
-			// それ以外
-			else
-			{
-				PadData::button[i][j] = 0; // 0にする
+				m_button[i][j]++;
 			}
 		}
 
@@ -171,7 +156,7 @@ void PadData::UpDate()
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
 const int PadData::Get(const int& t_code, const int& t_padNum)
 {
-	return button[t_padNum][t_code];
+	return m_button[t_padNum][t_code];
 }
 
 
@@ -196,10 +181,10 @@ const bool PadData::IsCheckEnd()
 {
 	return
 	{
-		(PadData::button[0][XINPUT_BUTTON_START] > 1 && PadData::button[0][XINPUT_BUTTON_BACK] > 1) ||
-		(PadData::button[1][XINPUT_BUTTON_START] > 1 && PadData::button[1][XINPUT_BUTTON_BACK] > 1) ||
-		(PadData::button[2][XINPUT_BUTTON_START] > 1 && PadData::button[2][XINPUT_BUTTON_BACK] > 1) ||
-		(PadData::button[3][XINPUT_BUTTON_START] > 1 && PadData::button[3][XINPUT_BUTTON_BACK] > 1)
+		(PadData::m_button[0][XINPUT_BUTTON_START] > 1 && PadData::m_button[0][XINPUT_BUTTON_BACK] > 1) ||
+		(PadData::m_button[1][XINPUT_BUTTON_START] > 1 && PadData::m_button[1][XINPUT_BUTTON_BACK] > 1) ||
+		(PadData::m_button[2][XINPUT_BUTTON_START] > 1 && PadData::m_button[2][XINPUT_BUTTON_BACK] > 1) ||
+		(PadData::m_button[3][XINPUT_BUTTON_START] > 1 && PadData::m_button[3][XINPUT_BUTTON_BACK] > 1)
 	};
 }
 

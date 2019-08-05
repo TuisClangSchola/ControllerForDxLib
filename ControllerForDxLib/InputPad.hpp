@@ -28,7 +28,7 @@ namespace PadStick
 class PadData 
 {
 private:
-	static int button[4][16];		// ゲームパッドの入力状態格納用変数
+	static int m_button[4][16];		// ゲームパッドの入力状態格納用変数
 	static int stick[4][6];			// ゲームパッドのスティック関連の入力状態収納用変数
 	static int stickCheck[4][8];	// ゲームパッドのスティックの入力状態収納用変数の最大までの倒しチェック
 
