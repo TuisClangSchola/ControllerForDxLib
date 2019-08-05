@@ -7,18 +7,18 @@
 #define _INPUTCONTROLLER_H
 namespace PadStick
 {
-	const int XINPUT_LEFT_TRIGGER = 0;
-	const int XINPUT_RIGHT_TRIGGER = 1;
-	const int  XINPUT_LEFT_THUMB_X = 2;
-	const int  XINPUT_LEFT_THUMB_Y = 3;
-	const int  XINPUT_RIGHT_THUMB_X = 4;
-	const int  XINPUT_RIGHT_THUMB_Y = 5;
+	const int LEFT_TRIGGER = 0;
+	const int RIGHT_TRIGGER = 1;
+	const int  LEFT_STICK_X = 2;
+	const int  LEFT_STICK_Y = 3;
+	const int  RIGHT_STICK_X = 4;
+	const int  RIGHT_STICK_Y = 5;
 
-	const int  XINPUT_THUMB_MAX = 32767;
-	const int  XINPUT_THUMB_MIN = -32768;
+	const int  THUMB_MAX_VALUE = 32767;
+	const int  THUMB_MIN_VALUE = -32768;
 
-	const int XINPUT_THUMB_PLUS = 0;
-	const int XINPUT_THUMB_MINUS = 4;
+	const int THUMB_PLUS = 0;
+	const int THUMB_MINUS = 4;
 }
 #endif // !_INPUTCONTROLLER_H
 
@@ -29,8 +29,9 @@ class PadData
 {
 private:
 	static int m_button[4][16];		// ゲームパッドの入力状態格納用変数
-	static int stick[4][6];			// ゲームパッドのスティック関連の入力状態収納用変数
-	static int stickCheck[4][8];	// ゲームパッドのスティックの入力状態収納用変数の最大までの倒しチェック
+	static int m_stick[4][6];		// ゲームパッドのスティック関連の入力状態収納用変数
+	static int m_stickCheck[4][8];	// ゲームパッドのスティックの入力状態収納用変数の最大までの倒しチェック
+	static int m_trigger[4][2];		// ゲームパッドのトリガーの入力状態収納用変数
 
 
 	// ゲームパッドのスティックのデッドゾーン数値を保存
@@ -54,6 +55,8 @@ public:
 		, short thumbRX_MAX, short thumbRX_MIN, short thumbRY_MAX, short thumbRY_MIN);					// デッドゾーンの設定
 	static void UpDate();																				// ゲームパッドの入力の状態更新
 	static int GetStickCheck(int code, int padNum, bool plus);											// ゲームパッドのスティックの押し倒し入力状態取得
+
+	static const int GetTrigger(const int& t_code, const int& t_padNum);
 
 	static const int Get(const int& t_code, const int& t_padNum);																// ゲームパッドの入力状態取得
 	static const bool IsCheckEnd();																		// 強制終了
