@@ -1,5 +1,6 @@
 #include "InputKey.hpp"
 #include "InputPad.hpp"
+#include "DxLib.h"
 
 
 
