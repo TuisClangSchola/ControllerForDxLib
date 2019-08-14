@@ -43,7 +43,7 @@ void KeyData::UpDate()
 
 
 /// ------------------------------------------------------------------------------------------------------------
-const int KeyData::Get(const int& t_keyCode)
+const int& KeyData::Get(const int& t_keyCode)
 {
 	return m_key[t_keyCode];
 }

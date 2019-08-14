@@ -271,7 +271,7 @@ void PadData::UpDate()
 
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-const int PadData::GetButton(const int& t_code, const int& t_padNum)
+const int& PadData::GetButton(const int& t_code, const int& t_padNum)
 {
 	return m_button[t_padNum][t_code];
 }
@@ -279,7 +279,7 @@ const int PadData::GetButton(const int& t_code, const int& t_padNum)
 
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-const int PadData::GetTrigger(const int& t_code, const int& t_padNum)
+const int& PadData::GetTrigger(const int& t_code, const int& t_padNum)
 {
 	return m_trigger[t_padNum][t_code];
 }
@@ -287,7 +287,7 @@ const int PadData::GetTrigger(const int& t_code, const int& t_padNum)
 
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-const int PadData::GetStick(const int& t_code, const int& t_padNum)
+const int& PadData::GetStick(const int& t_code, const int& t_padNum)
 {
 	return m_stick[t_padNum][t_code];
 }
@@ -295,7 +295,7 @@ const int PadData::GetStick(const int& t_code, const int& t_padNum)
 
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-const int PadData::GetStickCheck(const int& t_code, const int& t_padNum, const bool& t_leftOrDown)
+const int& PadData::GetStickCheck(const int& t_code, const int& t_padNum, const bool& t_leftOrDown)
 {
 	if (t_leftOrDown)
 	{
@@ -324,7 +324,7 @@ const bool PadData::IsCheckEnd()
 
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-const char PadData::GetPadNum()
+const char& PadData::GetPadNum()
 {
 	return m_padNum;
 }

@@ -156,11 +156,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="InputKey.cpp" />
+    <ClCompile Include="InputMouse.cpp" />
     <ClCompile Include="InputPad.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputKey.hpp" />
+    <ClInclude Include="InputMouse.hpp" />
     <ClInclude Include="InputPad.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
