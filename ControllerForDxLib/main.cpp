@@ -1,5 +1,6 @@
 #include "InputKey.hpp"
 #include "InputPad.hpp"
+#include "InputMouse.hpp"
 #include "DxLib.h"
 
 
@@ -38,15 +39,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	SetDrawScreen(DX_SCREEN_BACK);	// 背景描画
-	SetMouseDispFlag(FALSE);		// マウスカーソルを非表示にする
 
-
+	// キーボードの初期化
 	KeyData::UpDate();
 
 
+	// ゲームパッドの初期化
 	PadData::SetPadNum();
 	PadData::SetDedZone(20000, -20000, 20000, -20000, 20000, -20000, 20000, -20000);
 	PadData::UpDate();
+
+
+	// マウスの初期化
+	MouseData::MouseUpDate();
+	// マウスホイールの初期化
+	MouseWheelData::MouseWheelUpDate();
 
 
 	// demo
@@ -60,8 +67,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// メインループ
 	while (!ScreenFlip() && !ProcessMessage() && !ClearDrawScreen() && !KeyData::IsCheckEnd() && !PadData::IsCheckEnd())
 	{
-		KeyData::UpDate();
-		PadData::UpDate();
+		KeyData::UpDate();						// キーボードのループ処理
+		PadData::UpDate();						// ゲームパッドのループ処理
+		MouseData::MouseUpDate();				// マウスのループ処理
+		MouseWheelData::MouseWheelUpDate();		// マウスホイールのループ処理
+
+		printfDx("%d\n", MouseData::GetClick(MouseData::ECLICK::CENTER));
 
 
 		/// demo---------------------------------------------------------------------------------
