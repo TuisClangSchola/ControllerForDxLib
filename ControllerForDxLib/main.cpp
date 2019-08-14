@@ -56,12 +56,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	MouseWheelData::MouseWheelUpDate();
 
 
-	// demo
+	// demo 変数名適当
 	int x = 100;
 	int y = 100;
 	int red = 255;
 	int green = 0;
 	int blue = 0;
+	int x2 = 0;
+	int y2 = 0;
+	int x3 = 400;
+	int y3 = 400;
+	bool click = false;
 	
 
 	// メインループ
@@ -72,10 +77,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		MouseData::MouseUpDate();				// マウスのループ処理
 		MouseWheelData::MouseWheelUpDate();		// マウスホイールのループ処理
 
-		printfDx("%d\n", MouseData::GetMouseMoveValue().x);
-
 
 		/// demo---------------------------------------------------------------------------------
+		/// -------------------------------------------------------------------------------------
 		if (KeyData::Get(KEY_INPUT_W) > 0 || PadData::GetStickCheck(PadStick::LEFT_STICK_Y, 0, false) > 0)
 		{
 			y--;
@@ -110,6 +114,46 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		DrawBox(x - 20, y - 20, x + 20, y + 20, GetColor(red, green, blue), true);
 		DrawFormatString(0, 0, GetColor(255, 255, 255), "%dx%d, GetColor(255, %d, %d)", x, y, green, blue);
+		/// -------------------------------------------------------------------------------------
+
+		/// -------------------------------------------------------------------------------------
+		if (MouseData::GetClick(MouseData::ECLICK::LEFT) > 0
+			&& x3 - 20 < x2 && y3 - 20 < y2 && x3 + 20 > x2 && y3 + 20 > y2)
+		{
+			if(!click) click = true;
+		}
+		else if (MouseData::GetClick(MouseData::ECLICK::LEFT) == -1 && click)
+		{
+			click = false;
+		}
+		if (click)
+		{
+			x3 += MouseData::GetMouseMoveValue().x;
+			y3 += MouseData::GetMouseMoveValue().y;
+		}
+		DrawBox(x3 - 20, y3 - 20, x3 + 20, y3 + 20, GetColor(red, green, blue), true);
+		/// -------------------------------------------------------------------------------------
+
+		/// -------------------------------------------------------------------------------------
+		x2 = MouseData::GetMouseArea().x;
+		y2 = MouseData::GetMouseArea().y;
+		if (MouseData::GetClick(MouseData::ECLICK::LEFT) > 0)
+		{
+			DrawCircle(x2, y2, 5, GetColor(0, 255, 0));
+		}
+		else if (MouseData::GetClick(MouseData::ECLICK::RIGHT) > 0)
+		{
+			DrawCircle(x2, y2, 5, GetColor(255, 0, 0));
+		}
+		else if (MouseData::GetClick(MouseData::ECLICK::CENTER) > 0)
+		{
+			DrawCircle(x2, y2, 5, GetColor(0, 0, 255));
+		}
+		else
+		{
+			DrawCircle(x2, y2, 5, GetColor(255, 255, 255));
+		}
+		/// -------------------------------------------------------------------------------------
 		/// -------------------------------------------------------------------------------------
 	}
 
