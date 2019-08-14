@@ -31,7 +31,7 @@ public:
 	static const int& GetClick(const ECLICK& t_mouseCode);
 
 	// 現在のマウスの位置
-	static const MouseXY GetMouseArea();
+	static const MouseXY& GetMouseArea();
 
 	// 直前からどれくらい移動したか
 	static const MouseXY GetMouseMoveValue();

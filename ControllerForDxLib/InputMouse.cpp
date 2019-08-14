@@ -56,7 +56,7 @@ const int& MouseData::GetClick(const ECLICK& t_mouseCode)
 
 
 /// ------------------------------------------------------------------------------------------------------------
-const MouseData::MouseXY MouseData::GetMouseArea()
+const MouseData::MouseXY& MouseData::GetMouseArea()
 {
 	return m_mouseArea;
 }
