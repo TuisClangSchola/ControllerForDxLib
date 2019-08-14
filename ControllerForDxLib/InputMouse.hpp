@@ -52,7 +52,7 @@ public:
 	static void UpDate();
 
 	//マウスホイールの状態を返す
-	static const int GetMouseWheel();
+	static const int& GetMouseWheel();
 };
 
 

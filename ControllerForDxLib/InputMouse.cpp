@@ -105,7 +105,7 @@ void MouseWheelData::UpDate()
 
 
 /// ------------------------------------------------------------------------------------------------------------
-const int MouseWheelData::GetMouseWheel()
+const int& MouseWheelData::GetMouseWheel()
 {
 	return m_mouseWheel += GetMouseWheelRotVol();
 }
