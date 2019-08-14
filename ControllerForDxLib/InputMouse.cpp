@@ -13,7 +13,7 @@ MouseData::MouseXY MouseData::m_mouseArea;
 
 
 /// ------------------------------------------------------------------------------------------------------------
-void MouseData::MouseUpDate()
+void MouseData::UpDate()
 {
 	// PCゲーである以上、マウスのない状態が想定できないのでエラー処理は省く
 	m_mouseInput = GetMouseInput();
@@ -79,9 +79,17 @@ int MouseWheelData::m_oldMouseWheel;
 
 
 /// ------------------------------------------------------------------------------------------------------------
-void MouseWheelData::MouseWheelUpDate()
+void MouseWheelData::UpDate()
 {
-	m_oldMouseWheel = m_mouseWheel;
+	if (m_oldMouseWheel == m_mouseWheel)
+	{
+		if (m_mouseWheel != 0) m_mouseWheel = 0;
+		return;
+	}
+	else
+	{
+		m_oldMouseWheel = m_mouseWheel;
+	}
 
 
 	if (m_oldMouseWheel - m_mouseWheel > 0)
@@ -92,16 +100,12 @@ void MouseWheelData::MouseWheelUpDate()
 	{
 		m_mouseWheel--;
 	}
-	else
-	{
-		m_mouseWheel = 0;
-	}
 }
 
 
 
 /// ------------------------------------------------------------------------------------------------------------
-int MouseWheelData::GetMouseWheel(int MouseWheelCode)
+const int MouseWheelData::GetMouseWheel()
 {
-	return m_mouseWheel += MouseWheelCode;
+	return m_mouseWheel += GetMouseWheelRotVol();
 }

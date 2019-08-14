@@ -25,7 +25,7 @@ public:
 
 
 	//マウスのクリックの状態を更新する
-	static void MouseUpDate();
+	static void UpDate();
 
 	//マウスのクリックの状態を返す
 	static const int& GetClick(const ECLICK& t_mouseCode);
@@ -46,12 +46,13 @@ private:
 	static int m_mouseWheel;
 	static int m_oldMouseWheel;
 
+
 public:
 	//マウスのホイールの状態を更新
-	static void MouseWheelUpDate();
+	static void UpDate();
 
 	//マウスホイールの状態を返す
-	static int GetMouseWheel(int MouseWheelCode);
+	static const int GetMouseWheel();
 };
 
 

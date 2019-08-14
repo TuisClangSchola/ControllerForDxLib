@@ -51,9 +51,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	// マウスの初期化
-	MouseData::MouseUpDate();
+	MouseData::UpDate();
 	// マウスホイールの初期化
-	MouseWheelData::MouseWheelUpDate();
+	MouseWheelData::UpDate();
 
 
 	// demo 変数名適当
@@ -64,6 +64,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int blue = 0;
 	int x2 = 0;
 	int y2 = 0;
+	int r = 5;
 	int x3 = 400;
 	int y3 = 400;
 	bool click = false;
@@ -74,8 +75,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		KeyData::UpDate();						// キーボードのループ処理
 		PadData::UpDate();						// ゲームパッドのループ処理
-		MouseData::MouseUpDate();				// マウスのループ処理
-		MouseWheelData::MouseWheelUpDate();		// マウスホイールのループ処理
+		MouseData::UpDate();				// マウスのループ処理
+		MouseWheelData::UpDate();		// マウスホイールのループ処理
 
 
 		/// demo---------------------------------------------------------------------------------
@@ -139,19 +140,33 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		y2 = MouseData::GetMouseArea().y;
 		if (MouseData::GetClick(MouseData::ECLICK::LEFT) > 0)
 		{
-			DrawCircle(x2, y2, 5, GetColor(0, 255, 0));
+			DrawCircle(x2, y2, r, GetColor(0, 255, 0));
 		}
 		else if (MouseData::GetClick(MouseData::ECLICK::RIGHT) > 0)
 		{
-			DrawCircle(x2, y2, 5, GetColor(255, 0, 0));
+			DrawCircle(x2, y2, r, GetColor(255, 0, 0));
 		}
 		else if (MouseData::GetClick(MouseData::ECLICK::CENTER) > 0)
 		{
-			DrawCircle(x2, y2, 5, GetColor(0, 0, 255));
+			DrawCircle(x2, y2, r, GetColor(0, 0, 255));
 		}
 		else
 		{
-			DrawCircle(x2, y2, 5, GetColor(255, 255, 255));
+			DrawCircle(x2, y2, r, GetColor(255, 255, 255));
+		}
+		if (MouseWheelData::GetMouseWheel() > 0)
+		{
+			if (r > 1)
+			{
+				r--;
+			}
+		}
+		else if (MouseWheelData::GetMouseWheel() < 0)
+		{
+			if (r < 20)
+			{
+				r++;
+			}
 		}
 		/// -------------------------------------------------------------------------------------
 		/// -------------------------------------------------------------------------------------
