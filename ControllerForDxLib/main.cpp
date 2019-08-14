@@ -72,7 +72,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		MouseData::MouseUpDate();				// マウスのループ処理
 		MouseWheelData::MouseWheelUpDate();		// マウスホイールのループ処理
 
-		printfDx("%d\n", MouseData::GetClick(MouseData::ECLICK::CENTER));
+		printfDx("%d\n", MouseData::GetMouseMoveValue().x);
 
 
 		/// demo---------------------------------------------------------------------------------

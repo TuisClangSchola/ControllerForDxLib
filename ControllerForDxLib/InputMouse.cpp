@@ -7,6 +7,8 @@
 
 int MouseData::m_mouse[3];
 int MouseData::m_mouseInput;
+MouseData::MouseXY MouseData::m_preMouseArea;
+MouseData::MouseXY MouseData::m_mouseArea;
 
 
 
@@ -15,6 +17,10 @@ void MouseData::MouseUpDate()
 {
 	// PCゲーである以上、マウスのない状態が想定できないのでエラー処理は省く
 	m_mouseInput = GetMouseInput();
+
+	m_preMouseArea.x = m_mouseArea.x;
+	m_preMouseArea.y = m_mouseArea.y;
+	GetMousePoint(&m_mouseArea.x, &m_mouseArea.y);
 
 
 	for (int i = 0; i != 3; ++i)
@@ -45,6 +51,22 @@ void MouseData::MouseUpDate()
 const int& MouseData::GetClick(const ECLICK& t_mouseCode)
 {
 	return m_mouse[static_cast<int>(t_mouseCode)];
+}
+
+
+
+/// ------------------------------------------------------------------------------------------------------------
+const MouseData::MouseXY MouseData::GetMouseArea()
+{
+	return m_mouseArea;
+}
+
+
+
+/// ------------------------------------------------------------------------------------------------------------
+const MouseData::MouseXY MouseData::GetMouseMoveValue()
+{
+	return { m_mouseArea.x - m_preMouseArea.x, m_mouseArea.y - m_preMouseArea.y };
 }
 
 

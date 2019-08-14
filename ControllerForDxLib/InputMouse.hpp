@@ -10,6 +10,14 @@ class MouseData
 private:
 	static int m_mouse[3];
 	static int m_mouseInput;
+	struct MouseXY
+	{
+		int x;
+		int y;
+	};
+	static MouseXY m_preMouseArea;
+	static MouseXY m_mouseArea;
+
 
 public:
 	//左クリックか右クリックか
@@ -21,6 +29,12 @@ public:
 
 	//マウスのクリックの状態を返す
 	static const int& GetClick(const ECLICK& t_mouseCode);
+
+	// 現在のマウスの位置
+	static const MouseXY GetMouseArea();
+
+	// 直前からどれくらい移動したか
+	static const MouseXY GetMouseMoveValue();
 };
 
 
